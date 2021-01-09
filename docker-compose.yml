@@ -1,0 +1,38 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: environment/dockerfiles/app.dockerfile
+      args:
+        xdebug: 'true'
+        tinker: 'true'
+    user: '1000:1000'
+    volumes:
+      - './:/var/www:delegated'
+    env_file:
+      - environment/docker.env
+    ports:
+      - '9000:9000'
+  web:
+    build:
+      context: ./
+      dockerfile: environment/dockerfiles/web.dockerfile
+    environment:
+      - FAST_CGI_HOST=app
+    volumes:
+      - './:/var/www:delegated'
+    ports:
+      - '8080:80'
+  database:
+    image: 'postgres:latest'
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
+    ports:
+      - '33061:5432'
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=pupdates
+volumes:
+  dbdata: null
