@@ -3,19 +3,26 @@
 namespace Tests\Feature\Http\Controllers\Auth;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Tests\TestCase;
+use Tests\Utility;
 
 class RegisterControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    private $utility;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->utility = new Utility($this);
+        $this->utility->testSetup();
+    }
 
     /** @test */
     public function it_can_register_a_new_user()
     {
-        $email = 'testing@pupdates.com';
-        $name = 'Jane Doe';
+        $email = $this->faker->email;
+        $name = $this->faker->name . 'New Guy';
         $response = $this->postJson(route('api.register'), [
             'email' => $email,
             'name' => $name,
@@ -36,8 +43,8 @@ class RegisterControllerTest extends TestCase
     /** @test */
     public function it_doesnt_allow_multiple_users_with_the_same_email()
     {
-        $email = 'testing@pupdates.com';
-        $name = 'Jane Doe';
+        $email = $this->faker->email;
+        $name = $this->faker->name . 'New Guy';
         $this->postJson(route('api.register'), [
             'email' => $email,
             'name' => $name,
