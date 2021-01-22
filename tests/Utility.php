@@ -10,6 +10,7 @@ class Utility
 {
     private $testInstance;
     public $user;
+    public $secondUser;
 
     public function __construct($testInstance)
     {
@@ -18,6 +19,8 @@ class Utility
 
     public function testSetup()
     {
-        $this->user = User::get()->first();
+        $this->user = User::first();
+        $this->secondUser = User::whereNotIn('id', [$this->user->id])->first();
+        $this->user->tokens()->delete();
     }
 }
