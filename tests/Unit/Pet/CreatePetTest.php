@@ -18,11 +18,15 @@ class CreatePetTest extends TestCase
     {
         $pet = Pet::factory()->make();
         Sanctum::actingAs($this->utility->user);
-        $pet = $this->postJson(route('api.pet.store'), $pet->toArray())
-            ->assertOk()
-            ->getOriginalContent();
+        $this->postJson(route('api.pet.store'), $pet->toArray())
+            ->assertOk();
 
-        $this->assertDatabaseHas('pets', $pet->toArray());
+        $this->assertDatabaseHas('pets', [
+            'name' => $pet->name,
+            'date_of_birth' => $pet->date_of_birth,
+            'breed' => $pet->breed,
+            'user_id' => $this->utility->user->id,
+        ]);
     }
 
 }

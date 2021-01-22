@@ -11,11 +11,7 @@ class Pet extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = [
-        'name',
-        'date_of_birth',
-        'user_id',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'date_of_birth' => 'date',

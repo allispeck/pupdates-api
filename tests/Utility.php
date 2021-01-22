@@ -19,8 +19,8 @@ class Utility
 
     public function testSetup()
     {
-        $this->user = User::first();
-        $this->secondUser = User::whereNotIn('id', [$this->user->id])->first();
+        $this->user = User::factory()->create();
+        $this->secondUser = User::factory()->create();
         $this->user->tokens()->delete();
     }
 }

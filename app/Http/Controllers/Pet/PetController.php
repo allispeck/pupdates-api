@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PetResource;
 use App\Models\Pet;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,8 +35,13 @@ class PetController extends Controller
             'date_of_birth' => 'required|date'
         ]);
 
-        $pet = Pet::Create($request->all());
-        return response()->json($pet);
+        $pet = Pet::create([
+            'name' => $request->get('name'),
+            'date_of_birth' => $request->get('date_of_birth'),
+            'breed' => $request->get('breed'),
+            'user_id' => auth()->user()->id,
+        ]);
+        return response()->json(PetResource::make($pet));
     }
 
     /**
