@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class PetController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Pet::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
