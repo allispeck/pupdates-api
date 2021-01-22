@@ -18,7 +18,7 @@ class PetPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**

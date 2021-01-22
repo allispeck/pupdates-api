@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Pet;
 
+use App\Models\Pet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
@@ -18,15 +19,18 @@ class IndexPetTest extends TestCase
     /** @test */
     public function it_allows_authed_users_to_get_their_pets()
     {
+        $pet = Pet::factory()->create([
+            'user_id' => $this->utility->user->id
+        ]);
         Sanctum::actingAs($this->utility->user);
         $this->getJson(route('api.pet.index'))
             ->assertOk()
             ->assertJsonFragment([
-                'id',
-                'name',
-                'breed',
-                'date_of_birth',
-                'user_id'
+                'id' => $pet->id,
+                'name' => $pet->name,
+                'breed' => $pet->breed,
+                'date_of_birth' => $pet->date_of_birth,
+                'user_id' => $pet->user_id,
             ]);
     }
 

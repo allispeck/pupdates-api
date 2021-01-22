@@ -22,7 +22,7 @@ class PetController extends Controller
      */
     public function index()
     {
-        return response()->json(Pet::all()->paginate());
+        return response()->json(auth()->user()->pets()->paginate());
     }
 
     /**
