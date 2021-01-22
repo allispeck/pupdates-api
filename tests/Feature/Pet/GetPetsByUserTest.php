@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Pet;
 
+use App\Models\Pet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
@@ -18,14 +19,17 @@ class GetPetsByUserTest extends TestCase
     /** @test */
     public function it_allows_authed_user_to_get_other_authed_user_pets()
     {
+        $pet = Pet::factory()->create([
+            'user_id' => $this->utility->user->id
+        ]);
         Sanctum::actingAs($this->utility->secondUser);
         $this->getJson(route('api.user.pets', $this->utility->user->id))
             ->assertOk()
             ->assertJsonFragment([
-                'id',
-                'name',
-                'breed',
-                'date_of_birth'
+                'id' => $pet->id,
+                'name' => $pet->name,
+                'breed' => $pet->breed,
+                'date_of_birth' => $pet->date_of_birth,
             ]);
     }
 

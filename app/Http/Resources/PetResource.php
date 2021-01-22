@@ -15,6 +15,7 @@ class PetResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->resource->id,
             'name' => $this->resource->name,
             'date_of_birth' => $this->resource->date_of_birth,
             'breed' => $this->resource->breed,
