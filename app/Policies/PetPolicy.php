@@ -53,7 +53,7 @@ class PetPolicy
      */
     public function update(User $user, Pet $pet)
     {
-        //
+        return $pet->user_id === $user->id;
     }
 
     /**
