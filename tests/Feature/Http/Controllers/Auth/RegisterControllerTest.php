@@ -9,7 +9,6 @@ use Tests\Utility;
 
 class RegisterControllerTest extends TestCase
 {
-    private $utility;
 
     protected function setUp(): void
     {

@@ -11,4 +11,13 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use DatabaseTransactions;
     use WithFaker;
+
+    protected $utility;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->utility = new Utility($this);
+        $this->utility->testSetup();
+    }
 }

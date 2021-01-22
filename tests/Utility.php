@@ -10,6 +10,7 @@ class Utility
 {
     private $testInstance;
     public $user;
+    public $secondUser;
 
     public function __construct($testInstance)
     {
@@ -18,6 +19,8 @@ class Utility
 
     public function testSetup()
     {
-        $this->user = User::get()->first();
+        $this->user = User::factory()->create();
+        $this->secondUser = User::factory()->create();
+        $this->user->tokens()->delete();
     }
 }
