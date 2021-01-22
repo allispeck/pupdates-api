@@ -3,19 +3,11 @@
 namespace Tests\Feature\Pet;
 
 use App\Models\Pet;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class GetPetsByUserTest extends TestCase
 {
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /** @test */
     public function it_allows_authed_user_to_get_other_authed_user_pets()
     {

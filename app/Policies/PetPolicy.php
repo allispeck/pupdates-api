@@ -30,7 +30,7 @@ class PetPolicy
      */
     public function view(User $user, Pet $pet)
     {
-        //
+        return $user->id === $pet->user_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class PetPolicy
      */
     public function update(User $user, Pet $pet)
     {
-        return $pet->user_id === $user->id;
+        return $user->id === $pet->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class PetPolicy
      */
     public function delete(User $user, Pet $pet)
     {
-        return $pet->user_id === $user->id;
+        return $user->id === $pet->user_id;
     }
 
     /**
@@ -77,7 +77,7 @@ class PetPolicy
      */
     public function restore(User $user, Pet $pet)
     {
-        //
+        return $user->id === $pet->user_id;
     }
 
     /**
@@ -89,6 +89,6 @@ class PetPolicy
      */
     public function forceDelete(User $user, Pet $pet)
     {
-        //
+        return false;
     }
 }
