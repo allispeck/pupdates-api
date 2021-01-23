@@ -15,8 +15,8 @@ class DeletePetTest extends TestCase
             'user_id' => $this->utility->user->id
         ]);
         Sanctum::actingAs($this->utility->user);
-        $this->deleteJson(route('api.pet.destroy', $pet->id))
-            ->assertOk();
+        $this->deleteJson(route('api.pets.destroy', $pet->id))
+            ->assertNoContent();
 
         $this->assertSoftDeleted('pets', $pet->toArray());
     }

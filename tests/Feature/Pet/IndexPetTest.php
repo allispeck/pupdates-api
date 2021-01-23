@@ -23,7 +23,7 @@ class IndexPetTest extends TestCase
             'user_id' => $this->utility->user->id
         ]);
         Sanctum::actingAs($this->utility->user);
-        $this->getJson(route('api.pet.index'))
+        $this->getJson(route('api.pets.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $pet->id,
@@ -37,7 +37,7 @@ class IndexPetTest extends TestCase
     /** @test */
     public function it_does_not_allow_non_authed_users_to_get_pets()
     {
-        $this->getJson(route('api.pet.index'))
+        $this->getJson(route('api.pets.index'))
             ->assertUnauthorized();
     }
 }

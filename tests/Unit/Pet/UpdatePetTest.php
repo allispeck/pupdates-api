@@ -23,7 +23,7 @@ class UpdatePetTest extends TestCase
         $pet->name = $pet->name . ' new';
 
         Sanctum::actingAs($this->utility->user);
-        $this->putJson(route('api.pet.update', $pet->id), $pet->toArray())
+        $this->putJson(route('api.pets.update', $pet->id), $pet->toArray())
             ->assertOk();
 
         $this->assertDatabaseHas('pets', [

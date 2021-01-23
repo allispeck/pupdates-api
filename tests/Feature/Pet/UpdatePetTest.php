@@ -23,7 +23,7 @@ class UpdatePetTest extends TestCase
         $pet->name = $pet->name . ' new';
 
         Sanctum::actingAs($this->utility->user);
-        $this->putJson(route('api.pet.update', $pet->id), $pet->toArray())
+        $this->putJson(route('api.pets.update', $pet->id), $pet->toArray())
             ->assertOk();
     }
 
@@ -35,7 +35,7 @@ class UpdatePetTest extends TestCase
         ]);
         $pet->name = $pet->name . ' new';
         Sanctum::actingAs($this->utility->secondUser);
-        $this->putJson(route('api.pet.update', $pet->id), $pet->toArray())
+        $this->putJson(route('api.pets.update', $pet->id), $pet->toArray())
             ->assertForbidden();
     }
 
@@ -47,7 +47,7 @@ class UpdatePetTest extends TestCase
             'user_id' => $this->utility->user->id
         ]);
         $pet->name = $pet->name . ' new';
-        $this->putJson(route('api.pet.update', $pet->id), $pet->toArray())
+        $this->putJson(route('api.pets.update', $pet->id), $pet->toArray())
             ->assertUnauthorized();
     }
 }

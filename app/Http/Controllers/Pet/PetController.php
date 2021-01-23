@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Pet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PetRequest;
 use App\Http\Resources\PetResource;
 use App\Models\Pet;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PetController extends Controller
 {
@@ -20,7 +23,7 @@ class PetController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json(auth()->user()->pets()->paginate());
     }
@@ -28,56 +31,49 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param PetRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(PetRequest $request): JsonResponse
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string',
-            'breed' => 'required|string',
-            'date_of_birth' => 'required|date'
-        ]);
-
         $pet = Pet::create([
             'name' => $request->get('name'),
             'date_of_birth' => $request->get('date_of_birth'),
             'breed' => $request->get('breed'),
             'user_id' => auth()->user()->id,
         ]);
-        return response()->json(PetResource::make($pet));
+        return response()->json([
+            'data' => PetResource::make($pet)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  \App\Models\Pet  $pet
+     * @param PetRequest $request
+     * @param Pet        $pet
      * @return JsonResponse
      */
-    public function update(Request $request, Pet $pet)
+    public function update(PetRequest $request, Pet $pet): JsonResponse
     {
-        $request->validate([
-            'name' => 'string',
-            'breed' => 'string',
-            'date_of_birth' => 'date'
-        ]);
+        $pet->update($request->validated());
 
-        $pet->Update($request->all());
-        return response()->json($pet);
+        return response()->json([
+            'data' => PetResource::make($pet)
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Pet $pet
-     * @return JsonResponse
-     * @throws \Exception
+     * @param Pet $pet
+     * @return Response
+     * @throws Exception
      */
-    public function destroy(Pet $pet)
+    public function destroy(Pet $pet): Response
     {
         $pet->delete();
-        return response()->json('success');
+
+        return response()->noContent();
     }
 }

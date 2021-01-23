@@ -32,6 +32,6 @@ Route::post('/register', RegisterController::class)->name('register');
  *********************************************************
  */
 Route::middleware('auth:sanctum')->group(function() {
-    Route::apiResource('pet', PetController::class);
+    Route::apiResource('pets', PetController::class);
     Route::get('/user/{user}/pets', GetUserPetsController::class)->name('user.pets');
 });

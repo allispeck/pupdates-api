@@ -3,18 +3,11 @@
 namespace Tests\Feature\Pet;
 
 use App\Models\Pet;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class DeletePetTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /** @test */
     public function it_does_allow_authed_user_to_delete_their_pets()
     {
@@ -22,8 +15,8 @@ class DeletePetTest extends TestCase
             'user_id' => $this->utility->user->id
         ]);
         Sanctum::actingAs($this->utility->user);
-        $this->deleteJson(route('api.pet.destroy', $pet->id))
-            ->assertOk();
+        $this->deleteJson(route('api.pets.destroy', $pet->id))
+            ->assertNoContent();
     }
 
     /** @test */
@@ -33,7 +26,7 @@ class DeletePetTest extends TestCase
             'user_id' => $this->utility->user->id
         ]);
         Sanctum::actingAs($this->utility->secondUser);
-        $this->deleteJson(route('api.pet.destroy', $pet->id))
+        $this->deleteJson(route('api.pets.destroy', $pet->id))
             ->assertForbidden();
     }
 
@@ -43,7 +36,7 @@ class DeletePetTest extends TestCase
         $pet = Pet::factory()->create([
             'user_id' => $this->utility->user->id
         ]);
-        $this->deleteJson(route('api.pet.destroy', $pet->id))
+        $this->deleteJson(route('api.pets.destroy', $pet->id))
             ->assertUnauthorized();
     }
 }

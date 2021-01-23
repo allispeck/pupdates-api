@@ -22,6 +22,10 @@ class CreatePetsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('pets', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**
