@@ -8,7 +8,6 @@ use Tests\Utility;
 
 class LoginControllerTest extends TestCase
 {
-    private $utility;
 
     protected function setUp(): void
     {

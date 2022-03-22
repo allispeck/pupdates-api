@@ -18,5 +18,6 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@pupdates.com',
             'password' => bcrypt('password'),
         ]);
+        User::factory()->count(50)->hasPets(2)->create();
     }
 }
